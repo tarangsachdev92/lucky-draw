@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spin Lucky Draw</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 60px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    input {
+      padding: 10px;
+      width: 250px;
+      border-radius: 8px;
+      border: none;
+      margin-right: 5px;
+    }
+
+    button {
+      padding: 8px 15px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+
+    .add-btn { background: #2ecc71; color: white; }
+    .spin-btn { background: #e74c3c; color: white; }
+    .remove-btn { background: #333; color: white; margin-left: 10px; }
+
+    ul {
+      margin-top: 30px;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+      padding: 8px;
+      font-size: 20px;
+    }
+
+    .winner {
+      font-size: 24px;
+      font-weight: bold;
+      color: yellow;
+    }
+
+    .error {
+      color: #ffdddd;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎡 Spin Lucky Draw</h1>
+
+<input type="text" id="nameInput" placeholder="Enter name">
+<button class="add-btn" onclick="addName()">Add</button>
+<br>
+<button class="spin-btn" onclick="spin()">SPIN 🎲</button>
+
+<div class="error" id="errorMsg"></div>
+
+<ul id="list"></ul>
+
+<script>
+let names = [];
+
+function renderList(highlightIndex = -1) {
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  if (names.length === 0) {
+    list.innerHTML = "<li>No names added yet</li>";
+    return;
+  }
+
+  names.forEach((name, index) => {
+    let li = document.createElement("li");
+    li.innerHTML = 
+      (index + 1) + ". " + name +
+      `<button class="remove-btn" onclick="removeName(${index})">Remove</button>`;
+
+    if (index === highlightIndex) {
+      li.classList.add("winner");
+    }
+
+    list.appendChild(li);
+  });
+}
+
+function addName() {
+  let input = document.getElementById("nameInput");
+  let errorMsg = document.getElementById("errorMsg");
+  let value = input.value.trim();
+
+  if (value === "") return;
+
+  // ❌ Prevent duplicate (case insensitive)
+  if (names.some(n => n.toLowerCase() === value.toLowerCase())) {
+    errorMsg.textContent = "Name already exists!";
+    input.value = "";
+    return;
+  }
+
+  errorMsg.textContent = "";
+  names.push(value);
+  input.value = "";
+  renderList();
+}
+
+function removeName(index) {
+  names.splice(index, 1);
+  renderList();
+}
+
+function shuffleArray() {
+  for (let i = names.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [names[i], names[j]] = [names[j], names[i]];
+  }
+}
+
+function spin() {
+  if (names.length < 2) {
+    alert("Add at least 2 names!");
+    return;
+  }
+
+  let interval = setInterval(() => {
+    shuffleArray();
+    renderList();
+  }, 100);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    shuffleArray();
+    renderList(0);
+  }, 2000);
+}
+
+// Enter press = add name
+document.getElementById("nameInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    addName();
+  }
+});
+
+renderList();
+</script>
+
+</body>
+</html>
