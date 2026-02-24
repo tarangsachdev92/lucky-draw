@@ -12,13 +12,12 @@
       height: 100vh;
       overflow-x: hidden;
 
-      /* 🏟 STADIUM BACKGROUND */
+      /* 🏟 STADIUM */
       background: url("https://t4.ftcdn.net/jpg/02/19/80/13/360_F_219801337_3kbasqLvgbUxAGVDH8QS35Sm4SEiPJFJ.jpg")
       no-repeat center center fixed;
       background-size: cover;
     }
 
-    /* dark overlay */
     body::after{
       content:"";
       position:fixed;
@@ -30,7 +29,6 @@
       z-index:0;
     }
 
-    /* bring content above overlay */
     body > *{
       position:relative;
       z-index:1;
@@ -118,13 +116,6 @@
       animation: fadeIn 0.4s ease;
     }
 
-    .ignored {
-      margin-top: 12px;
-      color: gold;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
     .loading {
       margin-top: 15px;
       font-size: 16px;
@@ -165,14 +156,19 @@
   <div id="loading" class="loading" style="display:none;">
     🎡 Drawing Players...
   </div>
-
-  <div id="ignoredCode" class="ignored"></div>
 </div>
 
 <script>
 
 let players = [
-  "Nikunj","Bunny","Mitesh","Parth","Pratik","Nimesh","Tarang","Jaydeep"
+  "Nikunj",
+  "Bunny",
+  "Mitesh",
+  "Parth",
+  "Nimesh",
+  "Tarang",
+  "Jaydeep",
+  "Pratik"
 ];
 
 function renderPlayers() {
@@ -227,8 +223,6 @@ function generate() {
     shuffle(playersCopy);
     shuffle(codesCopy);
 
-    let ignored = codesCopy.pop();
-
     let playerListUI = document.getElementById("playerList");
     playerListUI.innerHTML = "";
 
@@ -237,9 +231,6 @@ function generate() {
       li.textContent = playersCopy[i] + " ➜ " + codesCopy[i];
       playerListUI.appendChild(li);
     }
-
-    document.getElementById("ignoredCode").textContent =
-      "🏆 BENCH CODE: " + ignored;
 
     document.getElementById("loading").style.display = "none";
 
@@ -251,5 +242,4 @@ renderPlayers();
 </script>
 
 </body>
-
 </html>
