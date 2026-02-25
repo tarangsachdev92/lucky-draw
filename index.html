@@ -11,8 +11,6 @@
       color: white;
       height: 100vh;
       overflow-x: hidden;
-
-      /* 🏟 STADIUM */
       background: url("https://t4.ftcdn.net/jpg/02/19/80/13/360_F_219801337_3kbasqLvgbUxAGVDH8QS35Sm4SEiPJFJ.jpg")
       no-repeat center center fixed;
       background-size: cover;
@@ -96,7 +94,7 @@
 
     .card {
       margin: 25px auto;
-      width: 360px;
+      width: 440px;
       padding: 20px;
       border-radius: 14px;
       background: rgba(0,0,0,0.65);
@@ -111,9 +109,24 @@
     }
 
     li {
-      padding: 8px;
+      padding: 12px;
       border-bottom: 1px solid rgba(255,255,255,0.2);
-      animation: fadeIn 0.4s ease;
+    }
+
+    .role-icon {
+      width: 20px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    .bat {
+      color:#00ff9c;
+      font-weight:bold;
+    }
+
+    .bowl {
+      color:#ff4747;
+      font-weight:bold;
     }
 
     .loading {
@@ -128,18 +141,13 @@
       50% { opacity: 1; }
       100% { opacity: 0.2; }
     }
-
-    @keyframes fadeIn {
-      from {opacity:0; transform:translateY(10px);}
-      to {opacity:1; transform:translateY(0);}
-    }
   </style>
 </head>
 
 <body>
 
 <h1>🏏 ICC T20 WORLD CUP 🎡</h1>
-<div class="subtitle">OFFICIAL MATCH LUCKY DRAW</div>
+<div class="subtitle">DOUBLE ROLE RANDOM DRAW</div>
 
 <div class="vs-box">
   <input type="text" id="team1" placeholder="Team 1">
@@ -161,14 +169,8 @@
 <script>
 
 let players = [
-  "Nikunj",
-  "Bunny",
-  "Mitesh",
-  "Parth",
-  "Nimesh",
-  "Tarang",
-  "Jaydeep",
-  "Pratik"
+  "Nikunj","Bunny","Mitesh","Parth",
+  "Nimesh","Tarang","Jaydeep","Pratik"
 ];
 
 function renderPlayers() {
@@ -198,38 +200,38 @@ function generate() {
     return;
   }
 
-  if (t1.toLowerCase() === t2.toLowerCase()) {
-    alert("Teams must be different!");
-    return;
-  }
-
   document.getElementById("loading").style.display = "block";
 
   setTimeout(() => {
 
-    let allCodes = [];
+    let batCodes = [];
+    let bowlCodes = [];
 
     for (let i = 1; i <= 4; i++) {
-      allCodes.push(t1.substring(0,3).toUpperCase() + i);
+      batCodes.push(t1.substring(0,3).toUpperCase() + i);
+      batCodes.push(t2.substring(0,3).toUpperCase() + i);
     }
 
     for (let i = 1; i <= 4; i++) {
-      allCodes.push(t2.substring(0,3).toUpperCase() + i);
+      bowlCodes.push(t1.substring(0,3).toUpperCase() + i);
+      bowlCodes.push(t2.substring(0,3).toUpperCase() + i);
     }
 
-    let playersCopy = [...players];
-    let codesCopy = [...allCodes];
+    shuffle(batCodes);
+    shuffle(bowlCodes);
 
-    shuffle(playersCopy);
-    shuffle(codesCopy);
+    let list = document.getElementById("playerList");
+    list.innerHTML = "";
 
-    let playerListUI = document.getElementById("playerList");
-    playerListUI.innerHTML = "";
-
-    for (let i = 0; i < playersCopy.length; i++) {
+    for (let i = 0; i < players.length; i++) {
       let li = document.createElement("li");
-      li.textContent = playersCopy[i] + " ➜ " + codesCopy[i];
-      playerListUI.appendChild(li);
+
+      li.innerHTML =
+        players[i] + " ➜ " +
+        "<span class='bat'>🏏 " + batCodes[i] + "</span> &nbsp; | &nbsp; " +
+        "<span class='bowl'>🥎 " + bowlCodes[i] + "</span>";
+
+      list.appendChild(li);
     }
 
     document.getElementById("loading").style.display = "none";
