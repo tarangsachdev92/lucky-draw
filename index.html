@@ -217,6 +217,7 @@ function generate() {
       bowlCodes.push(t2.substring(0,3).toUpperCase() + i);
     }
 
+    shuffle(players);      // ⭐ shuffle players also
     shuffle(batCodes);
     shuffle(bowlCodes);
 
@@ -238,7 +239,6 @@ function generate() {
 
   }, 2000);
 }
-
 renderPlayers();
 
 </script>
