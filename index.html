@@ -1,247 +1,270 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>T20 World Cup Lucky Draw</title>
+<title>ICC T20 Match Draw</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      color: white;
-      height: 100vh;
-      overflow-x: hidden;
-      background: url("https://t4.ftcdn.net/jpg/02/19/80/13/360_F_219801337_3kbasqLvgbUxAGVDH8QS35Sm4SEiPJFJ.jpg")
-      no-repeat center center fixed;
-      background-size: cover;
-    }
+<style>
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
 
-    body::after{
-      content:"";
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,0.55);
-      z-index:0;
-    }
+.container{
+width:950px;
+margin:40px auto;
+padding:30px;
+border-radius:20px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+box-shadow:0 0 60px rgba(0,255,255,0.4);
+}
 
-    body > *{
-      position:relative;
-      z-index:1;
-    }
+h1{
+font-size:42px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#00f5ff,#00ff9c);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
 
-    h1 {
-      margin-top: 15px;
-      font-size: 30px;
-      letter-spacing: 2px;
-      color: #00e5ff;
-      text-shadow: 0 0 20px cyan;
-    }
+.subtitle{
+letter-spacing:4px;
+color:#ccc;
+margin-bottom:30px;
+}
 
-    .subtitle {
-      font-size: 13px;
-      letter-spacing: 3px;
-      color: gold;
-      margin-bottom: 15px;
-    }
+select{
+padding:14px;
+width:220px;
+border-radius:12px;
+border:1px solid cyan;
+background:rgba(0,0,0,0.6);
+color:#00f5ff;
+font-weight:bold;
+margin:10px;
+font-size:16px;
+}
 
-    .vs-box {
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: bold;
-    }
+button{
+padding:15px 45px;
+border-radius:30px;
+border:none;
+font-weight:bold;
+font-size:18px;
+cursor:pointer;
+background:linear-gradient(90deg,#00ff9c,#00f5ff);
+color:black;
+margin-top:20px;
+transition:.3s;
+}
 
-    input {
-      padding: 10px;
-      width: 130px;
-      border-radius: 8px;
-      border: none;
-      text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-      margin: 5px;
-      background: rgba(0,0,0,0.7);
-      color: #00e5ff;
-      box-shadow: 0 0 10px cyan;
-    }
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 35px cyan;
+}
 
-    .vs-text {
-      color: #ff4747;
-      font-size: 22px;
-      margin: 0 8px;
-    }
+ul{
+list-style:none;
+padding:0;
+margin-top:35px;
+}
 
-    button {
-      margin-top: 20px;
-      padding: 12px 30px;
-      border-radius: 25px;
-      border: none;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-      background: linear-gradient(45deg, #ffcc00, #ff6600);
-      color: black;
-      box-shadow: 0 0 20px orange;
-      transition: 0.3s;
-    }
+li{
+padding:16px;
+margin-bottom:14px;
+border-radius:14px;
+background:rgba(255,255,255,0.06);
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:20px;
+font-weight:600;
+opacity:0;
+transform:translateY(25px);
+transition:0.5s;
+}
 
-    button:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 35px gold;
-    }
+li.show{
+opacity:1;
+transform:translateY(0);
+}
 
-    .card {
-      margin: 25px auto;
-      width: 440px;
-      padding: 20px;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.65);
-      box-shadow: 0 0 25px cyan;
-      backdrop-filter: blur(6px);
-    }
+.role{
+display:flex;
+align-items:center;
+gap:8px;
+}
 
-    ul {
-      list-style: none;
-      padding: 0;
-      font-size: 16px;
-    }
+.role img{
+width:26px;
+border-radius:4px;
+}
 
-    li {
-      padding: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
+.bat{color:#00ff9c;}
+.bowl{color:#ff4d4d;}
 
-    .role-icon {
-      width: 20px;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-
-    .bat {
-      color:#00ff9c;
-      font-weight:bold;
-    }
-
-    .bowl {
-      color:#ff4747;
-      font-weight:bold;
-    }
-
-    .loading {
-      margin-top: 15px;
-      font-size: 16px;
-      color: #ffcc00;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0% { opacity: 0.2; }
-      50% { opacity: 1; }
-      100% { opacity: 0.2; }
-    }
-  </style>
+.download{
+margin-left:15px;
+background:orange;
+}
+</style>
 </head>
 
 <body>
 
-<h1>🏏 ICC T20 WORLD CUP 🎡</h1>
-<div class="subtitle">DOUBLE ROLE RANDOM DRAW</div>
+<div class="container">
 
-<div class="vs-box">
-  <input type="text" id="team1" placeholder="Team 1">
-  <span class="vs-text">VS</span>
-  <input type="text" id="team2" placeholder="Team 2">
+<h1>🏏 ICC T20 MATCH DRAW</h1>
+<div class="subtitle">CINEMATIC RANDOM ALLOCATION</div>
+
+<div>
+<select id="team1"></select>
+<select id="team2"></select>
 </div>
 
-<button onclick="generate()">START MATCH DRAW 🔥</button>
+<button onclick="generate()">START DRAW 🔥</button>
+<button class="download" onclick="download()">📸 Download Result</button>
 
-<div class="card">
-  <h3>👥 Players</h3>
-  <ul id="playerList"></ul>
+<ul id="playerList"></ul>
 
-  <div id="loading" class="loading" style="display:none;">
-    🎡 Drawing Players...
-  </div>
 </div>
 
 <script>
 
-let players = [
-  "Nikunj","Bunny","Mitesh","Parth",
-  "Nimesh","Tarang","Jaydeep","Pratik"
+let players=[
+"Nikunj","Bunny","Mitesh","Parth",
+"Nimesh","Tarang","Jaydeep","Pratik"
 ];
 
-function renderPlayers() {
-  let list = document.getElementById("playerList");
-  list.innerHTML = "";
-  players.forEach(p => {
-    let li = document.createElement("li");
-    li.textContent = p;
-    list.appendChild(li);
-  });
+let teams=["IND","SA","NZ","ENG","ZIM","WI","PAK","SL"];
+teams.sort();
+
+let flags={
+IND:"https://flagcdn.com/w40/in.png",
+SA:"https://flagcdn.com/w40/za.png",
+NZ:"https://flagcdn.com/w40/nz.png",
+ENG:"https://flagcdn.com/w40/gb.png",
+ZIM:"https://flagcdn.com/w40/zw.png",
+WI:"https://flagcdn.com/w40/jm.png",
+PAK:"https://flagcdn.com/w40/pk.png",
+SL:"https://flagcdn.com/w40/lk.png"
+};
+
+function loadTeams(){
+let t1=document.getElementById("team1");
+let t2=document.getElementById("team2");
+
+teams.forEach(team=>{
+let o1=document.createElement("option");
+o1.value=team;
+o1.textContent=team;
+t1.appendChild(o1);
+
+let o2=document.createElement("option");
+o2.value=team;
+o2.textContent=team;
+t2.appendChild(o2);
+});
 }
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
+function shuffle(a){
+for(let i=a.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[a[i],a[j]]=[a[j],a[i]];
+}
 }
 
-function generate() {
-
-  let t1 = document.getElementById("team1").value.trim();
-  let t2 = document.getElementById("team2").value.trim();
-
-  if (!t1 || !t2) {
-    alert("Enter both team names!");
-    return;
-  }
-
-  document.getElementById("loading").style.display = "block";
-
-  setTimeout(() => {
-
-    let batCodes = [];
-    let bowlCodes = [];
-
-    for (let i = 1; i <= 4; i++) {
-      batCodes.push(t1.substring(0,3).toUpperCase() + i);
-      batCodes.push(t2.substring(0,3).toUpperCase() + i);
-    }
-
-    for (let i = 1; i <= 4; i++) {
-      bowlCodes.push(t1.substring(0,3).toUpperCase() + i);
-      bowlCodes.push(t2.substring(0,3).toUpperCase() + i);
-    }
-
-    shuffle(players);      // ⭐ shuffle players also
-    shuffle(batCodes);
-    shuffle(bowlCodes);
-
-    let list = document.getElementById("playerList");
-    list.innerHTML = "";
-
-    for (let i = 0; i < players.length; i++) {
-      let li = document.createElement("li");
-
-      li.innerHTML =
-        players[i] + " ➜ " +
-        "<span class='bat'>🏏 " + batCodes[i] + "</span> &nbsp; | &nbsp; " +
-        "<span class='bowl'>🥎 " + bowlCodes[i] + "</span>";
-
-      list.appendChild(li);
-    }
-
-    document.getElementById("loading").style.display = "none";
-
-  }, 2000);
+function playSound(type){
+let audio;
+if(type==="drum"){
+audio=new Audio("https://assets.mixkit.co/sfx/preview/mixkit-drum-roll-567.mp3");
 }
-renderPlayers();
+if(type==="cheer"){
+audio=new Audio("https://assets.mixkit.co/sfx/preview/mixkit-small-group-cheer-and-applause-518.mp3");
+}
+audio.play();
+}
+
+function generate(){
+
+let t1=document.getElementById("team1").value;
+let t2=document.getElementById("team2").value;
+
+if(t1===t2){
+alert("Select different teams");
+return;
+}
+
+playSound("drum");
+
+let batCodes=[];
+let bowlCodes=[];
+
+for(let i=1;i<=4;i++){
+batCodes.push(t1+i);
+batCodes.push(t2+i);
+}
+
+for(let i=1;i<=4;i++){
+bowlCodes.push(t1+i);
+bowlCodes.push(t2+i);
+}
+
+shuffle(players);
+shuffle(batCodes);
+shuffle(bowlCodes);
+
+let list=document.getElementById("playerList");
+list.innerHTML="";
+
+players.forEach((player,i)=>{
+
+let batTeam = batCodes[i].replace(/[0-9]/g,'');
+let bowlTeam = bowlCodes[i].replace(/[0-9]/g,'');
+
+let batNum = batCodes[i].replace(/[A-Z]/g,'');
+let bowlNum = bowlCodes[i].replace(/[A-Z]/g,'');
+
+let li=document.createElement("li");
+
+li.innerHTML=
+"<span>"+player+"</span>"+
+"<div style='display:flex; gap:30px;'>"+
+"<div class='role bat'>🏏 "+batTeam+" <img src='"+flags[batTeam]+"'> "+batNum+"</div>"+
+"<div class='role bowl'>🥎 "+bowlTeam+" <img src='"+flags[bowlTeam]+"'> "+bowlNum+"</div>"+
+"</div>";
+
+list.appendChild(li);
+
+setTimeout(()=>{
+li.classList.add("show");
+if(i===players.length-1){
+playSound("cheer");
+}
+},i*450);
+
+});
+
+}
+
+function download(){
+html2canvas(document.body).then(canvas=>{
+let link=document.createElement("a");
+link.download="match_draw.png";
+link.href=canvas.toDataURL();
+link.click();
+});
+}
+
+loadTeams();
 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </body>
 </html>
