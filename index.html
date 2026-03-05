@@ -114,7 +114,7 @@ box-shadow:0 0 25px cyan;
 }
 
 button:disabled{
-opacity:0.5;
+opacity:0.6;
 cursor:not-allowed;
 }
 
@@ -186,18 +186,18 @@ let players=[
 "Nimesh","Tarang","Jaydeep","Pratik"
 ];
 
-let teams=["IND","NZ","ENG"];
-teams.sort();
+let teams=["IND","NZ"];
 
 let flags={
 IND:"https://flagcdn.com/w40/in.png",
-NZ:"https://flagcdn.com/w40/nz.png",
-ENG:"https://flagcdn.com/w40/gb.png"
+NZ:"https://flagcdn.com/w40/nz.png"
 };
+
+let lockDuration = 60 * 60 * 1000; // 1 hour
 
 function loadTeams(){
 createCustomSelect("team1","IND");
-createCustomSelect("team2","ENG");
+createCustomSelect("team2","NZ");
 }
 
 function createCustomSelect(id, defaultTeam){
@@ -249,23 +249,16 @@ let j=Math.floor(Math.random()*(i+1));
 
 function generate(){
 
-if(localStorage.getItem("drawDone")){
-alert("Draw already completed");
-return;
-}
-
-localStorage.setItem("drawDone",true);
-document.getElementById("drawBtn").disabled=true;
-
 let t1=document.querySelector("#team1 .selected").getAttribute("data-value");
 let t2=document.querySelector("#team2 .selected").getAttribute("data-value");
 
 if(t1===t2){
 alert("Select different teams");
-localStorage.removeItem("drawDone");
-document.getElementById("drawBtn").disabled=false;
 return;
 }
+
+localStorage.setItem("drawTime", new Date().getTime());
+startTimer();
 
 let batCodes=[];
 let bowlCodes=[];
@@ -306,19 +299,62 @@ li.innerHTML=
 
 list.appendChild(li);
 
-setTimeout(()=>{
-li.classList.add("show");
-},i*350);
+setTimeout(()=>{ li.classList.add("show"); }, i*350);
 
 });
 
 }
 
-if(localStorage.getItem("drawDone")){
-document.getElementById("drawBtn").disabled=true;
+function startTimer(){
+
+let btn=document.getElementById("drawBtn");
+btn.disabled=true;
+
+let savedTime=localStorage.getItem("drawTime");
+
+let timer=setInterval(()=>{
+
+let now=new Date().getTime();
+let diff=now-savedTime;
+let remaining=lockDuration-diff;
+
+if(remaining<=0){
+
+clearInterval(timer);
+localStorage.removeItem("drawTime");
+
+btn.disabled=false;
+btn.innerText="START DRAW 🔥";
+
+return;
+}
+
+let hrs=Math.floor(remaining/3600000);
+let mins=Math.floor((remaining%3600000)/60000);
+let secs=Math.floor((remaining%60000)/1000);
+
+btn.innerText=
+"LOCKED "+
+String(hrs).padStart(2,'0')+":"+
+String(mins).padStart(2,'0')+":"+
+String(secs).padStart(2,'0');
+
+},1000);
+
+}
+
+function checkLock(){
+
+let savedTime=localStorage.getItem("drawTime");
+
+if(savedTime){
+startTimer();
+}
+
 }
 
 loadTeams();
+checkLock();
 
 </script>
 
